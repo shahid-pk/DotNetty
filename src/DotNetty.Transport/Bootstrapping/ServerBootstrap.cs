@@ -178,6 +178,52 @@ namespace DotNetty.Transport.Bootstrapping
             return this;
         }
 
+<<<<<<< HEAD
+=======
+        static Func<IChannelConfiguration, bool> CompileOptionsSetupFunc(IDictionary<ChannelOption, object> templateOptions)
+        {
+            if (templateOptions.Count == 0)
+            {
+                return null;
+            }
+
+            ParameterExpression configParam = Expression.Parameter(typeof(IChannelConfiguration));
+            ParameterExpression resultVariable = Expression.Variable(typeof(bool));
+            var assignments = new List<Expression>
+            {
+                Expression.Assign(resultVariable, Expression.Constant(true))
+            };
+
+            MethodInfo setOptionMethodDefinition = typeof(IChannelConfiguration)
+                .FindMembers(MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public, Type.FilterName, "SetOption")
+                .Cast<MethodInfo>()
+                .First(x => x.IsGenericMethodDefinition);
+
+            foreach (KeyValuePair<ChannelOption, object> p in templateOptions)
+            {
+                // todo: emit log if verbose is enabled && option is missing
+                TypeInfo optionType = p.Key.GetType().GetTypeInfo();
+                if (!optionType.IsGenericType)
+                {
+                    throw new InvalidOperationException("Only options of type ChannelOption<T> are supported.");
+                }
+                if (optionType.GetGenericTypeDefinition() != typeof(ChannelOption<>))
+                {
+                    throw new NotSupportedException(string.Format("Channel option is of an unsupported type `{0}`. Only ChannelOption and ChannelOption<T> are supported.", optionType));
+                }
+                Type valueType = optionType.GetGenericArguments[0];
+                MethodInfo setOptionMethod = setOptionMethodDefinition.MakeGenericMethod(valueType);
+                assignments.Add(Expression.Assign(
+                    resultVariable,
+                    Expression.AndAlso(
+                        resultVariable,
+                        Expression.Call(configParam, setOptionMethod, Expression.Constant(p.Key), Expression.Constant(p.Value, valueType)))));
+            }
+
+            return Expression.Lambda<Func<IChannelConfiguration, bool>>(Expression.Block(typeof(bool), new[] { resultVariable }, assignments), configParam).Compile();
+        }
+
+>>>>>>> more work
         class ServerBootstrapAcceptor : ChannelHandlerAdapter
         {
             readonly IEventLoopGroup childGroup;

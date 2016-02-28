@@ -1,0 +1,32 @@
+{
+    "name" : "DotNetty.Codecs.Mqtt",
+    "version": "0.2.0",
+    
+    "dependencies": {
+        "DotNetty.Common" : {
+            "version" : "0.2.0",
+            "type" : "build"
+        },
+        "DotNetty.Buffers" : {
+            "version" : "0.2.0",
+            "type" : "build"
+        },
+        "DotNetty.Codecs" : {
+            "version" : "0.2.0",
+            "type" : "build"
+        },
+        "DotNetty.Transport" : {
+            "version" : "0.2.0",
+            "type" : "build"
+        }       
+    },
+
+    "frameworks": {
+        "netstandard1.3": {
+            "imports" : "portable-net45+win8",
+            "dependencies": {
+                "NETStandard.Library": "1.5.0-rc2-*"
+            } 
+        }
+    }
+}

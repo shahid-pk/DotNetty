@@ -22,7 +22,7 @@ namespace DotNetty.Transport.Bootstrapping
     ///         transports such as datagram (UDP).
     ///     </p>
     /// </summary>
-    public abstract class AbstractBootstrap<TBootstrap, TChannel> : ICloneable
+    public abstract class AbstractBootstrap<TBootstrap, TChannel>
         where TBootstrap : AbstractBootstrap<TBootstrap, TChannel>
         where TChannel : IChannel
     {

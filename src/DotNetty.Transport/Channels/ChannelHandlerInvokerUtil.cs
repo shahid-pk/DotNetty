@@ -241,7 +241,6 @@ namespace DotNetty.Transport.Channels
 
         // todo: use "nameof" once available
         static readonly string ExceptionCaughtMethodName = nameof(IChannelHandler.ExceptionCaught);
-
         static bool InExceptionCaught(Exception cause) => cause.StackTrace.IndexOf("." + ExceptionCaughtMethodName + "(", StringComparison.Ordinal) >= 0;
     }
 }
