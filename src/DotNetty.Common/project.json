@@ -1,0 +1,19 @@
+{
+    "name" : "DotNetty.Common",
+    "description" : "DotNetty common types and components",
+    "version" : "0.2.0",
+    
+    "frameworks": {
+        "netstandard1.3": {
+            "imports": "portable-net45+win8",
+            "dependencies": {
+                "NETStandard.Library": "1.5.0-rc2-*",
+                "System.Linq": "4.1.0-rc2-*",
+                "System.Text.RegularExpressions": "4.0.12-rc2-*",
+                "System.Threading.Thread" : "4.0.0-rc2-*",
+                "System.Diagnostics.Contracts": "4.0.1-rc2-*",
+                "System.Collections.Concurrent": "4.0.12-rc2-*"
+            }
+        }
+    }
+}

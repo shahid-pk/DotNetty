@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using System.Reflection;
+
 namespace DotNetty.Transport.Bootstrapping
 {
     using System;
@@ -177,9 +179,7 @@ namespace DotNetty.Transport.Bootstrapping
             }
             return this;
         }
-
-<<<<<<< HEAD
-=======
+        
         static Func<IChannelConfiguration, bool> CompileOptionsSetupFunc(IDictionary<ChannelOption, object> templateOptions)
         {
             if (templateOptions.Count == 0)
@@ -194,8 +194,17 @@ namespace DotNetty.Transport.Bootstrapping
                 Expression.Assign(resultVariable, Expression.Constant(true))
             };
 
-            MethodInfo setOptionMethodDefinition = typeof(IChannelConfiguration)
-                .FindMembers(MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public, Type.FilterName, "SetOption")
+      var filterByName = new MemberFilter((memberInfo, filterParameter) =>
+      {
+        var memberName = filterParameter as string;
+        if (memberInfo.Name == memberName)
+          return true;
+        return false;
+
+      });
+
+            MethodInfo setOptionMethodDefinition = typeof(IChannelConfiguration).GetTypeInfo()
+                .FindMembers(MemberTypes.Method, BindingFlags.Instance | BindingFlags.Public, filterByName, "SetOption")
                 .Cast<MethodInfo>()
                 .First(x => x.IsGenericMethodDefinition);
 
@@ -211,7 +220,7 @@ namespace DotNetty.Transport.Bootstrapping
                 {
                     throw new NotSupportedException(string.Format("Channel option is of an unsupported type `{0}`. Only ChannelOption and ChannelOption<T> are supported.", optionType));
                 }
-                Type valueType = optionType.GetGenericArguments[0];
+        Type valueType = optionType.GenericTypeArguments[0];// GetGenericArguments[0];
                 MethodInfo setOptionMethod = setOptionMethodDefinition.MakeGenericMethod(valueType);
                 assignments.Add(Expression.Assign(
                     resultVariable,
@@ -221,9 +230,8 @@ namespace DotNetty.Transport.Bootstrapping
             }
 
             return Expression.Lambda<Func<IChannelConfiguration, bool>>(Expression.Block(typeof(bool), new[] { resultVariable }, assignments), configParam).Compile();
-        }
-
->>>>>>> more work
+      }
+      
         class ServerBootstrapAcceptor : ChannelHandlerAdapter
         {
             readonly IEventLoopGroup childGroup;

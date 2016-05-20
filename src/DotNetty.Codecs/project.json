@@ -1,17 +1,14 @@
 {
-    "name" : "DotNetty.Codecs.Mqtt",
-    "version": "0.2.0",
-    
+  "name": "DotNetty.Codecs",
+  "description": "DotNetty Codecs",
+  "version": "0.2.0",
+  
     "dependencies": {
         "DotNetty.Common" : {
             "version" : "0.2.0",
             "type" : "build"
         },
         "DotNetty.Buffers" : {
-            "version" : "0.2.0",
-            "type" : "build"
-        },
-        "DotNetty.Codecs" : {
             "version" : "0.2.0",
             "type" : "build"
         },
@@ -37,8 +34,11 @@
                 "System.Diagnostics.StackTrace": "4.0.1-rc2-*",
                 "System.Net.NameResolution": "4.0.0-rc2-*",
                 "System.Diagnostics.Process": "4.1.0-rc2-*",
-                "System.Net.NetworkInformation": "4.1.0-rc2-*"
-            } 
-        }
-    }
+                "System.Net.NetworkInformation": "4.1.0-rc2-*",
+                "DotNetty.Common": "0.2.0",
+                "DotNetty.Buffers": "0.2.0",
+                "DotNetty.Transport": "0.2.0"          
+            }
+         }
+      }
 }
